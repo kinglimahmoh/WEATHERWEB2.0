@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyMinnionsweatherapp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body style="background: #222;">
+<div class="fullscreen-container">
+    <div class="card">
+        <div class="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter city name" spellcheck="false">
+                <!-- <div class="input-group-append"> -->
+                    <button class="btn btn-primary" type="button"><img src="weather-app-img/images/search.png"></button>
+                <!-- </div> -->
+                <div class="error">
+                    <p>Invalid city name</p>
+                </div>
+            </div>
+        </div>
+        <div class="temp-toggle">
+            <button id="tempUnitToggle" class="btn btn-primary" type="button">Toggle</button>
+           </div> 
+        <nav class="navbar">
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a href="contact2.html" class="navbar__links">Contact Us</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="tech.html" class="navbar__links"> About Us</a>
+                </li>
+                
+            </ul>
+      </nav>
+        <div class="weather">
+            <img src="weather-app-img/images/rain.png" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Berlin</h2>
+            <p class="current-time"></p>
+            <div class="details">
+                <div class="col">
+                    <img src="weather-app-img/images/humidity.png">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="weather-app-img/images/wind.png">
+                    <div>
+                        <p class="wind">15 km/h</p>
+                        <p>Wind Speed</p>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+
+const apiKey = "5b9deaabe0fa1021aa5a36d4c79217bd";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const weatherIcon = document.querySelector(".weather-icon");
+const tempElement = document.querySelector(".temp");
+const tempUnitToggle = document.querySelector("#tempUnitToggle");
+
+const timeApiUrl = "http://worldtimeapi.org/api/ip";
+
+async function checkWeather(city){
+    const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+    
+
+if(response.status == 404) {
+    document.querySelector(".error").style.display = "block";
+    document.querySelector(".weather").style.display = "none";
+}else{
+    var data = await response.json();
+    console.log(data)
+ 
+
+    document.querySelector(".city").innerHTML = data.name;
+    tempElement.innerHTML = Math.round(data.main.temp) + "°C";
+    document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+    document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+    if(data.weather[0].main == "Clouds"){
+        weatherIcon.src = "weather-app-img/images/clouds.png";
+    }
+    else if(data.weather[0].main == "Clear"){
+        weatherIcon.src = "weather-app-img/images/clear.png";
+    }
+    else if(data.weather[0].main == "Rain"){
+        weatherIcon.src = "weather-app-img/images/rain.png";
+    }
+    else if(data.weather[0].main == "Drizzle"){
+        weatherIcon.src = "weather-app-img/images/drizzle.png";
+    }
+    else if(data.weather[0].main == "Mist"){
+        weatherIcon.src = "weather-app-img/images/mist.png";
+    }
+    else if(data.weather[0].main == "snow"){
+        weatherIcon.src = "weather-app-img/images/snow.png";
+    }
+
+    document.querySelector(".weather").style.display = "block";
+    document.querySelector(".error").style.display = "none";
+
+    const isNight = isNightTime();
+    updateBackgroundAndIcon(isNight);
+
+    const currentTemperature = Math.round(data.main.temp);
+    updateTemperatureForNext3Hours(currentTemperature);
+
+    updateCurrentTime();
+    
+
+}
+}
+
+function updateTemperatureForNext3Hours(currentTemperature) {
+  const tempElement = document.querySelector(".temp");
+  const tempUnit = tempElement.innerHTML.slice(-1);
+  const tempValue = parseFloat(tempElement.innerHTML);
+
+  for (let i = 1; i <= 3; i++) {
+    const nextTemperature = tempValue + i; // Assuming the temperature increases by 1 degree per hour
+    const nextTemperatureFormatted = tempUnit === "C" ? `${nextTemperature}°C` : `${nextTemperature}°F`;
+
+    setTimeout(() => {
+      tempElement.innerHTML = nextTemperatureFormatted;
+    }, i * 1000); // Delay the update by i seconds (e.g., 1 second, 2 seconds, 3 seconds)
+  }
+}
+
+function isNightTime() {
+  const currentHour = new Date().getHours();
+  return currentHour >= 18 || currentHour <= 6;
+}
+
+
+
+function updateBackgroundAndIcon(isNight) {
+  const body = document.querySelector("body");
+  const weatherIcon = document.querySelector(".weather-icon");
+
+  if (isNight) {
+    body.classList.add("night-mode");
+    weatherIcon.src = "weather-app-img/images/clouds.png";
+  } else {
+    body.classList.remove("night-mode");
+    weatherIcon.src = "weather-app-img/images/clouds.png";
+  }
+}
+
+function getCurrentTime() {     //to get the time
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function updateCurrentTime() {
+  const currentTimeElement = document.querySelector(".current-time");
+  currentTimeElement.innerHTML = getCurrentTime();
+
+  setInterval(() => {
+    currentTimeElement.innerHTML = getCurrentTime();
+  }, 1000);
+}
+
+searchBtn.addEventListener("click" , ()=>{
+    checkWeather(searchBox.value);
+})
+
+tempUnitToggle.addEventListener("click", () => {
+    const currentTemp = tempElement.innerHTML;
+    const currentUnit = currentTemp.slice(-1); 
+
+    if (currentUnit === "C") {
+        const fahrenheitTemp = (parseFloat(currentTemp) * 9) / 5 + 32;
+        tempElement.innerHTML = `${Math.round(fahrenheitTemp)}°F`;
+    } else {
+        const celsiusTemp = ((parseFloat(currentTemp) - 32) * 5) / 9;
+        tempElement.innerHTML = `${Math.round(celsiusTemp)}°C`;
+    }
+});
+
+if (searchBtn) {
+    searchBtn.addEventListener("click", () => {
+        checkWeather(searchBox.value);
+    });
+}
+
+</script>
+
+</body>
+</html>
