@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #222;
+  }
+  
+  .fullscreen-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .card {
+    width: 90%;
+    max-width: 470px;
+    background: linear-gradient(135deg, #38ced6, #5853e0);
+    color: #fff;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 40px 35px;
+    text-align: center;
+  }
+  
+  .search {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .search input {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    color: #555;
+    padding: 10px 25px;
+    height: 60px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+  }
+  
+  .search button {
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+  }
+  
+  .search button img {
+    width: 16px;
+  }
+  
+  .weather {
+    /* Your existing styles */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .weather-icon {
+    margin-bottom: 20px;
+  }
+  
+  .weather-icon .icon {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .weather-info {
+    text-align: center;
+  }
+  
+  .details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    margin-top: 50px;
+  }
+  
+  .weather h1 {
+    font-size: 80px;
+    font-weight: 600;
+  }
+  
+  .weather h2 {
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: -10px;
+  }
+  
+  .col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .col img {
+    width: 40px;
+    margin-right: 10px;
+  }
+  
+  .humidity,.wind {
+    font-size: 28px;
+    margin-top: -6px;
+  }
+  
+  .weather{
+    display: none;
+  }
+  
+  .error{
+    text-align: left;
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: none;
+  }
+  
+  .temp-toggle {
+    margin-top: 20px;
+  }
+  
+  .temp-toggle button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    background: skyblue;
+    color: #fff;
+  }
+  
+  @media (max-width: 576px) {
+    .card {
+        padding: 30px 25px;
+    }
+  
+    .weather h1 {
+        font-size: 60px;
+    }
+  
+    .weather h2 {
+        font-size: 35px;
+    }
+  
+    .weather-icon {
+        width: 120px;
+        margin: 20px;
+    }
+  
+    .details {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+    }
+  
+    .col {
+        margin-bottom: 15px;
+    }
+  }
+  
+  .navbar__menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    text-align: center;
+  }
+  
+  .navbar__item {
+    height: 80px;
+  }
+  
+  .navbar__links {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+  }
+
+  body.night-mode {
+    background-color: #00004d;
+    /* Add styles for sparkling stars */
+  }
+  
+  .weather-icon[src*="cloudy.png"] {
+    display: none;
+  }
+  
+  .weather-icon[src*="clouds.png"] {
+    display: block;
+  }
+  
+  .weather-icon[src*="clear.png"] {
+    display: block;
+  }
+  
+  .weather-icon[src*="rain.png"] {
+    display: block;
+  }
+  
+  .weather-icon[src*="drizzle.png"] {
+    display: block;
+  }
+  
+  .weather-icon[src*="mist.png"] {
+    display: block;
+  }
+
+.container {
+    padding: 20px;
+    color: #f9f4f4; 
+    font-size: 16px; 
+    line-height: 1.5; 
+  }
+
+  
